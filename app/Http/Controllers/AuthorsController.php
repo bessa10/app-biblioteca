@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Exception;
 
 class AuthorsController extends Controller
 {
@@ -22,7 +21,7 @@ class AuthorsController extends Controller
     {
         $authors = $this->author->all();
         
-        return $authors;
+        return response()->json($authors, 200);
     }
 
     /**
@@ -30,9 +29,11 @@ class AuthorsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate($this->author->rules(), $this->author->feedback());
+
         $author = $this->author->create($request->all());
 
-        return $author;
+        return response()->json($author, 201);
     }
 
     /**
@@ -42,7 +43,11 @@ class AuthorsController extends Controller
     {
         $author = $this->author->find($id);
 
-        return $author;
+        if($author === null) {
+            return response()->json(['erro' => 'Autor não encontrado com o código informado'], 404);
+        }
+
+        return response()->json($author, 200);
     }
 
     /**
@@ -52,9 +57,31 @@ class AuthorsController extends Controller
     {
         $author = $this->author->find($id);
 
+        if($author === null) {
+            return response()->json(['erro' => 'Não foi possível realizar a alteração, pois o autor solicitado não existe'], 404);
+        }
+
+        if($request->method() === 'PATCH') {
+
+            $dinamycRules = [];
+
+            foreach($this->author->rules() as $input => $rule) {
+
+                if(array_key_exists($input, $request->all())) {
+                    $dinamycRules[$input] = $rule;
+                }
+            }
+
+            $request->validate($dinamycRules, $this->author->feedback());
+
+        } else {
+
+            $request->validate($this->author->rules(), $this->author->feedback());
+        }
+
         $author->update($request->all());
 
-        return $author;
+        return response()->json($author, 200);
     }
 
     /**
@@ -63,9 +90,13 @@ class AuthorsController extends Controller
     public function destroy(string $id)
     {
         $author = $this->author->find($id);
+
+        if($author === null) {
+            return response()->json(['erro' => 'Não foi possível realizar a alteração, pois o autor solicitado não existe'], 404);
+        }
         
         $author->delete();
 
-        return ['msg' => 'The author was successfully removed'];
+        return response()->json(['msg' => 'Autor removido com sucesso'], 200);
     }
 }
