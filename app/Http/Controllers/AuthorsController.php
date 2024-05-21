@@ -61,23 +61,7 @@ class AuthorsController extends Controller
             return response()->json(['erro' => 'Não foi possível realizar a alteração, pois o autor solicitado não existe'], 404);
         }
 
-        if($request->method() === 'PATCH') {
-
-            $dinamycRules = [];
-
-            foreach($this->author->rules() as $input => $rule) {
-
-                if(array_key_exists($input, $request->all())) {
-                    $dinamycRules[$input] = $rule;
-                }
-            }
-
-            $request->validate($dinamycRules, $this->author->feedback());
-
-        } else {
-
-            $request->validate($this->author->rules(), $this->author->feedback());
-        }
+        $request->validate($this->author->rules(), $this->author->feedback());
 
         $author->update($request->all());
 

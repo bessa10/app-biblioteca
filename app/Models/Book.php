@@ -5,22 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Author extends Model
+class Book extends Model
 {
     use HasFactory;
 
-    protected $table = 'authors';
+    protected $table = 'books';
 
     protected $fillable = [
-        'name',
-        'dt_birth'
+        'title',
+        'description',
+        'year_publication'
     ];
 
     public function rules()
     {   
         return [
-            'name'      => 'required',
-            'dt_birth'  => 'required'
+            'title'      => 'required',
+            'year_publication'  => 'required'
         ];
     }
 
