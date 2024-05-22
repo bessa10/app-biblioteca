@@ -47,6 +47,24 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+
+    public function rules()
+    {   
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ];
+    }
+
+    public function feedback()
+    {
+        return [
+            'required' => 'O campo :attribute é obrigatório',
+            'unique' => 'O campo :attribute já existe no banco de dados'
+        ];
+    }
+
     // Rest omitted for brevity
 
     /**
