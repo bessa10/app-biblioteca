@@ -33,3 +33,5 @@ Executar os seguintes comandos na raiz do projeto:
 - Primeiro será necessário cadastrar um novo usuário utilizando o endpoint "api/register".
 
 - Após a criação do usuário, o token de acesso poderá ser gerado "api/login".
+
+- Na raiz do projeto, existe um arquivo collection para subir no Postman.
