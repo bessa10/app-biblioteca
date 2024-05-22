@@ -27,3 +27,9 @@ Executar os seguintes comandos na raiz do projeto:
 ## Servidor de teste
 
 - Para iniciar o servidor de teste, rodar o comando "php artisan serve"
+
+## Utilização dos endpoints
+
+- Primeiro será necessário cadastrar um novo usuário utilizando o endpoint "api/register".
+
+- Após a criação do usuário, o token de acesso poderá ser gerado "api/login".
