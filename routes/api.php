@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthorsController;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LoansController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +30,7 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function(){
 
     Route::apiResource('authors', AuthorsController::class);
     Route::apiResource('books', BooksController::class);
+    Route::apiResource('loans', LoansController::class); 
 });
 
 Route::post('login', [AuthController::class, 'login']);
